@@ -2,6 +2,7 @@ package br.com.zynger.cardview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
@@ -16,6 +17,7 @@ public class CardFaceView extends View {
     private static final int CHIP_BORDER_RADIUS = 5;
     
     private static final int CARD_CONTENT_LEFT = Math.round((float)CARD_WIDTH / 17.5f);
+    private static final int CARD_CONTENT_RIGHT = CARD_WIDTH - Math.round((float)CARD_WIDTH / 17.5f);
     private static final int CARD_CONTENT_TOP = Math.round((float)CARD_HEIGHT / 15.0f);
 
     private Paint mCardPaint;
@@ -24,6 +26,8 @@ public class CardFaceView extends View {
     private Paint mChipOverPaint;
     private RectF mCardBaseChip;
     private RectF mCardOverChip;
+    private Paint mFlagPaint;
+    private RectF mFlagRect;
 
     public CardFaceView(Context context) {
 	super(context);
@@ -37,12 +41,14 @@ public class CardFaceView extends View {
 	mChipOverPaint = new Paint();
 	mChipOverPaint.setColor(0xFFD9D9D9);
 	
-	Log.e("CARD", "W =" + CARD_WIDTH + ", H=" + CARD_HEIGHT);
-	Log.e("CARD", "L =" + CARD_CONTENT_LEFT + ", T=" + CARD_CONTENT_TOP);
+	mFlagPaint = new Paint();
+	mFlagPaint.setColor(Color.RED);
 	
 	mCardRect = new RectF(0, 0, CARD_WIDTH, CARD_HEIGHT);
 	mCardBaseChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2f, CARD_WIDTH * 0.2f, CARD_CONTENT_TOP + CARD_HEIGHT * 0.25f);
 	mCardOverChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2.4f, CARD_WIDTH * 0.15f, CARD_CONTENT_TOP + CARD_HEIGHT * 0.22f);
+	
+	mFlagRect = new RectF(CARD_WIDTH - (CARD_WIDTH * 0.22f), CARD_CONTENT_TOP * 1.5f, CARD_CONTENT_RIGHT, CARD_CONTENT_TOP + CARD_HEIGHT * 0.22f);
     }
 
     @Override
@@ -52,6 +58,7 @@ public class CardFaceView extends View {
 	canvas.drawRoundRect(mCardRect, CARD_BORDER_RADIUS, CARD_BORDER_RADIUS, mCardPaint);
 	canvas.drawRoundRect(mCardBaseChip, CHIP_BORDER_RADIUS, CHIP_BORDER_RADIUS, mChipBasePaint);
 	canvas.drawRoundRect(mCardOverChip, CHIP_BORDER_RADIUS, CHIP_BORDER_RADIUS, mChipOverPaint);
+	canvas.drawRect(mFlagRect, mFlagPaint);
     }
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
