@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import br.com.zynger.cardview.CardFaceFrontView.CardFlag;
+import br.com.zynger.cardview.CardFaceView.CardFlag;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -44,10 +44,13 @@ public class MainActivity extends ActionBarActivity {
 			RelativeLayout layout = (RelativeLayout) rootView
 					.findViewById(R.id.relativelayout);
 
-			final CardFaceFrontView card = new CardFaceFrontView(rootView.getContext());
-			card.setCardNumber("5444 4444 4444 4444");
-			card.setCardName("Arya Stark");
-			card.setCardValidThru(8, 2015);
+//			final CardFrontFaceView card = new CardFrontFaceView(rootView.getContext());
+//			card.setCardNumber("5444 4444 4444 4444");
+//			card.setCardName("Arya Stark");
+//			card.setCardValidThru(8, 2015);
+			
+			final CardBackFaceView card = new CardBackFaceView(rootView.getContext());
+//			card.setCardCvv(432);
 			
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
