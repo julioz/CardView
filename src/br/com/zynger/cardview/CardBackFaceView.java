@@ -63,7 +63,7 @@ public class CardBackFaceView extends CardFaceView {
 		canvas.drawText(String.valueOf(mCardCvv), mSignatureRect.right + (CARD_WIDTH / 35f), mSignatureRect.centerY(), mCvvPaint);
 	}
 
-	public void setCardCvv(Integer cardCvv) {
+	protected void setCardCvv(Integer cardCvv) {
 		this.mCardCvv = String.valueOf(cardCvv);
 		invalidate();
 	}

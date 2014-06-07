@@ -174,17 +174,17 @@ public class CardFrontFaceView extends CardFaceView {
 		drawTextInRectF(flag.getText(), 0, Math.round(mVisaClipRect.height()/6f), canvas, mVisaClipRect, mVisaTextPaint);
 	}
 	
-	public void setCardNumber(String cardNumber) {
+	protected void setCardNumber(String cardNumber) {
 		this.mCardNumber = cardNumber;
 		invalidate();
 	}
 	
-	public void setCardName(String cardName) {
+	protected void setCardName(String cardName) {
 		this.mCardName = cardName.toUpperCase(Locale.getDefault());
 		invalidate();
 	}
 	
-	public void setCardValidThru(int month, int year) {
+	protected void setCardValidThru(int month, int year) {
 		this.mCardValidThruMonth = month;
 		this.mCardValidThruYear = year;
 		this.mCardValidThru = (month < 10 ? "0" : "") + month + "/" + (year < 10 ? "0" : "") + year;

@@ -45,12 +45,13 @@ public class MainActivity extends ActionBarActivity {
 					.findViewById(R.id.relativelayout);
 
 //			final CardFrontFaceView card = new CardFrontFaceView(rootView.getContext());
-//			card.setCardNumber("5444 4444 4444 4444");
-//			card.setCardName("Arya Stark");
-//			card.setCardValidThru(8, 2015);
+			final CardView card = new CardView(rootView.getContext());
+			card.setCardNumber("5444 4444 4444 4444");
+			card.setCardName("Arya Stark");
+			card.setCardValidThru(8, 2015);
 			
-			final CardBackFaceView card = new CardBackFaceView(rootView.getContext());
-//			card.setCardCvv(432);
+//			final CardBackFaceView card = new CardBackFaceView(rootView.getContext());
+			card.setCardCvv(432);
 			
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -62,14 +63,15 @@ public class MainActivity extends ActionBarActivity {
 				@Override
 				public void onClick(View v) {
 					// TODO show other card face after animation
-					CardFlag flag = null;
-					if (flagCounter < CardFlag.values().length) {
-						flag = CardFlag.values()[flagCounter];
-					}
-					card.setFlag(flag);
-					Toast.makeText(v.getContext(), "Flag = " + flag,
-							Toast.LENGTH_SHORT).show();
-					flagCounter = (flagCounter + 1) % (CardFlag.values().length + 1);
+//					CardFlag flag = null;
+//					if (flagCounter < CardFlag.values().length) {
+//						flag = CardFlag.values()[flagCounter];
+//					}
+//					card.setFlag(flag);
+//					Toast.makeText(v.getContext(), "Flag = " + flag,
+//							Toast.LENGTH_SHORT).show();
+//					flagCounter = (flagCounter + 1) % (CardFlag.values().length + 1);
+					card.toggleCardFace();
 				}
 			});
 
