@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
@@ -25,7 +24,7 @@ public class CardFrontFaceView extends CardFaceView {
 	private Paint mCardValidTextPaint;
 	private Paint mCardValidHeaderTextPaint;
 	private Paint mCardValidTitleTextPaint;
-	private BitmapDrawable pattern;
+//	private BitmapDrawable pattern;
 	
 	private String mCardNumber = "•••• •••• •••• ••••";
 	private String mCardName = "CARDHOLDER NAME";
