@@ -27,11 +27,11 @@ public class CardFrontFaceView extends CardFaceView {
 	private Paint mCardValidTitleTextPaint;
 	private BitmapDrawable pattern;
 	
-	private String mCardNumber = "";
-	private String mCardName = "";
+	private String mCardNumber = "•••• •••• •••• ••••";
+	private String mCardName = "CARDHOLDER NAME";
 	private Integer mCardValidThruMonth;
 	private Integer mCardValidThruYear;
-	private String mCardValidThru = "";
+	private String mCardValidThru = "••/••";
 
 	private Paint mMasterCardRedCirclePaint;
 	private Paint mMasterCardYellowCirclePaint;

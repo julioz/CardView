@@ -13,7 +13,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 
 public class CardBackFaceView extends CardFaceView {
 
-	private Integer mCardCvv;
+	private String mCardCvv = "•••";
 	
 	private RectF mMagnecticBarRect;
 	private Paint mMagnecticBarPaint;
@@ -60,13 +60,12 @@ public class CardBackFaceView extends CardFaceView {
 		
 		canvas.drawRect(mSignatureRect, mSignaturePaint);
 		
-		if (mCardCvv != null) {
-			canvas.drawText(String.valueOf(mCardCvv), mSignatureRect.right + (CARD_WIDTH / 35f), mSignatureRect.centerY(), mCvvPaint);
-		}
+		canvas.drawText(String.valueOf(mCardCvv), mSignatureRect.right + (CARD_WIDTH / 35f), mSignatureRect.centerY(), mCvvPaint);
 	}
 
 	public void setCardCvv(Integer cardCvv) {
-		this.mCardCvv = cardCvv;
+		this.mCardCvv = String.valueOf(cardCvv);
+		invalidate();
 	}
 	
 	@Override
