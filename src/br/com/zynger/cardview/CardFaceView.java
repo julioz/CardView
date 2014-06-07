@@ -38,8 +38,8 @@ public abstract class CardFaceView extends View {
 	
 	protected static final int CARD_BACKGROUND_COLOR_NOFLAG = 0xFFCCCCCC;
 
-	protected static final int CARD_WIDTH = Math.round(700 * 1.f);
-	protected static final int CARD_HEIGHT = Math.round(400 * 1.f);
+	protected static final int CARD_WIDTH = Math.round(700 * 0.75f);
+	protected static final int CARD_HEIGHT = Math.round(400 * 0.75f);
 
 	protected static final int CARD_BORDER_RADIUS = 10;
 	protected static final int CHIP_BORDER_RADIUS = 5;

@@ -9,4 +9,10 @@
     android:id="@+id/relativelayout"
     tools:context="br.com.zynger.cardview.MainActivity$PlaceholderFragment" >
     
+    <br.com.zynger.cardview.CardView
+        android:id="@+id/cardview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+    
 </RelativeLayout>

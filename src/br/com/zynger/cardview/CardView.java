@@ -1,10 +1,12 @@
 package br.com.zynger.cardview;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
+import br.com.zynger.cardview.CardFaceView.CardFlag;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -12,7 +14,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 
 public class CardView extends RelativeLayout {
 
-	private final static int ANIMATION_DURATION = 700;
+	private final static int ANIMATION_DURATION = 400;
 	
 	private boolean isShowingFront = true;
 	private boolean isAnimating = false;
@@ -26,8 +28,19 @@ public class CardView extends RelativeLayout {
 	private ObjectAnimator mBackInAnim;
 
 	public CardView(Context context) {
-		super(context);
-		
+		this(context, null, 0);
+	}
+	
+	public CardView(Context context, AttributeSet attrs) {
+		this(context, attrs, 0);
+	}
+	
+	public CardView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context);
+	}
+
+	private void init(Context context) {
 		mCardFrontView = new CardFrontFaceView(context);
 		mCardBackView = new CardBackFaceView(context);
 		
@@ -35,6 +48,10 @@ public class CardView extends RelativeLayout {
 		addView(mCardBackView);
 		addView(mCardFrontView);
 		
+		initAnimations();
+	}
+
+	private void initAnimations() {
 		mFrontOutAnim = ObjectAnimator.ofFloat(mCardFrontView, "rotationY", 0f, -90f);
 		mFrontOutAnim.setDuration(ANIMATION_DURATION);
 		mFrontOutAnim.setInterpolator(new AccelerateInterpolator());
@@ -150,6 +167,15 @@ public class CardView extends RelativeLayout {
 	
 	public void setCardValidThru(int month, int year) {
 		mCardFrontView.setCardValidThru(month, year);
+	}
+	
+	public void setFlag(CardFlag flag) {
+		mCardFrontView.setFlag(flag);
+		mCardBackView.setFlag(flag);
+	}
+	
+	public boolean isShowingFront() {
+		return isShowingFront;
 	}
 	
 	public void toggleCardFace() {
