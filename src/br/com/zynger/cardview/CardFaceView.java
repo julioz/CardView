@@ -17,14 +17,16 @@ import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public abstract class CardFaceView extends View {
 	public enum CardFlag {
-		VISA("VISA", 0xFF191278), MASTERCARD("MasterCard", 0xFF0061A8), DISCOVER(
-				"Discover", 0xFF86B8CF), AMEX("American Express", 0xFF108168);
+		VISA("VISA", 0xFF191278, "4.*"), MASTERCARD("MasterCard", 0xFF0061A8, "5[1-5].*"), DISCOVER(
+				"Discover", 0xFF86B8CF, "(6011|644|65).*"), AMEX("American Express", 0xFF108168, "(34|37).*");
 		
 		private String mText;
+		private String mRegex;
 		private int mColor;
-		private CardFlag(String text, int color) {
+		private CardFlag(String text, int color, String regex) {
 			mText = text;
 			mColor = color;
+			mRegex = regex;
 		}
 		
 		public int getColor() {
@@ -33,6 +35,10 @@ public abstract class CardFaceView extends View {
 
 		public String getText() {
 			return mText;
+		}
+
+		public String getRegex() {
+			return mRegex;
 		}
 	}
 	

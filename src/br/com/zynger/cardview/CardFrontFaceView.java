@@ -137,10 +137,10 @@ public class CardFrontFaceView extends CardFaceView {
 		canvas.drawText(mMonthYearText , mFlagRect.left, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.41f, mCardValidHeaderTextPaint);
 		
-		canvas.drawText(mValidText , mFlagRect.left - CARD_WIDTH * 0.07f, mCardBaseChip.bottom
+		canvas.drawText(mValidText , mFlagRect.left - CARD_WIDTH * 0.075f, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.46f, mCardValidTitleTextPaint);
 		
-		canvas.drawText(mThruText , mFlagRect.left - CARD_WIDTH * 0.07f, mCardBaseChip.bottom
+		canvas.drawText(mThruText , mFlagRect.left - CARD_WIDTH * 0.075f, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.50f, mCardValidTitleTextPaint);
 		
 		canvas.drawText(mCardValidThru, mFlagRect.left, mCardBaseChip.bottom
@@ -191,19 +191,23 @@ public class CardFrontFaceView extends CardFaceView {
 	protected void setCardValidThru(int month, int year) {
 		this.mCardValidThruMonth = month;
 		this.mCardValidThruYear = year;
-		this.mCardValidThru = (month < 10 ? "0" : "") + month + "/" + (year < 10 ? "0" : "") + year;
+		if (month < 1 || year < 0) {
+			this.mCardValidThru = "";
+		} else {
+			this.mCardValidThru = (month < 10 ? "0" : "") + month + "/" + (year < 10 ? "0" : "") + year;
+		}
 		invalidate();
 	}
 	
 	public void setValidThruText(String valid, String thru) {
-		this.mValidText = valid;
-		this.mThruText = thru;
+		this.mValidText = valid.toLowerCase(Locale.getDefault());
+		this.mThruText = thru.toLowerCase(Locale.getDefault());
 		
 		int maxLength = Math.max(mValidText.length(), mThruText.length());
-		float size = 9.5f;
+		float size = 9.3f;
 		if (maxLength > 5) {
 			int difference = maxLength - 5;
-			size = 9.5f - (difference * 1.3f);
+			size = 9.3f - (difference * 1.3f);
 		}
 		size = Math.max(size, 5.0f);
 		mCardValidTitleTextPaint.setTextSize(size * CARD_TEXT_SIZE_MULTIPLIER);

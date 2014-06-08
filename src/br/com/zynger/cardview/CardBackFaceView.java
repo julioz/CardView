@@ -80,7 +80,7 @@ public class CardBackFaceView extends CardFaceView {
 	}
 
 	protected void setCardCvv(Integer cardCvv) {
-		this.mCardCvv = String.valueOf(cardCvv);
+		this.mCardCvv = cardCvv == null ? "" : String.valueOf(cardCvv);
 		invalidate();
 	}
 	
