@@ -7,11 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
 public class CardFrontFaceView extends CardFaceView {
+	
+	private TypefaceUtil typefaces;
 	
 	private RectF mCardBaseChip;
 	private RectF mCardOverChip;
@@ -42,6 +43,8 @@ public class CardFrontFaceView extends CardFaceView {
 	public CardFrontFaceView(Context context) {
 		super(context);
 		
+		typefaces = TypefaceUtil.getInstance(getContext());
+		
 		mVisaPaint = new Paint();
 		mVisaPaint.setColor(Color.WHITE);
 		
@@ -61,7 +64,7 @@ public class CardFrontFaceView extends CardFaceView {
 		mCardNumberTextPaint.setAntiAlias(true);
 		mCardNumberTextPaint.setColor(Color.WHITE);
 		mCardNumberTextPaint.setAlpha(Math.round(0.75f * 255));
-		mCardNumberTextPaint.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "VeraMoBd.ttf"));
+		mCardNumberTextPaint.setTypeface(typefaces.getVeraMonoBold());
 		
 		mCardNameTextPaint = new Paint(mCardNumberTextPaint);
 		mCardNameTextPaint.setTextSize(18 * CARD_TEXT_SIZE_MULTIPLIER);
@@ -73,21 +76,21 @@ public class CardFrontFaceView extends CardFaceView {
 		mCardValidHeaderTextPaint.setTextSize(8.5f * CARD_TEXT_SIZE_MULTIPLIER);
 		
 		mCardValidTitleTextPaint = new Paint(mCardValidHeaderTextPaint);
-		mCardValidTitleTextPaint.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "liberation-sans.ttf"));
+		mCardValidTitleTextPaint.setTypeface(typefaces.getLiberationSans());
 		mCardValidTitleTextPaint.setTextSize(9.5f * CARD_TEXT_SIZE_MULTIPLIER);
 		
 		mVisaTextPaint = new Paint();
 		mVisaTextPaint.setColor(CardFlag.VISA.getColor());
 		mVisaTextPaint.setAntiAlias(true);
 		mVisaTextPaint.setDither(true);
-		mVisaTextPaint.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "VeraMoBd.ttf"));
+		mVisaTextPaint.setTypeface(typefaces.getVeraMonoBold());
 		mVisaTextPaint.setTextSize(13f * CARD_TEXT_SIZE_MULTIPLIER);
 		
 		mMasterCardTextPaint = new Paint();
 		mMasterCardTextPaint.setColor(Color.WHITE);
 		mMasterCardTextPaint.setAntiAlias(true);
 		mMasterCardTextPaint.setDither(true);
-		mMasterCardTextPaint.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "VeraMoBI.ttf"));
+		mMasterCardTextPaint.setTypeface(typefaces.getVeraMonoBoldItalic());
 		mMasterCardTextPaint.setTextSize(8f * CARD_TEXT_SIZE_MULTIPLIER);
 		
 		mFlagRect = new RectF(CARD_WIDTH - (CARD_WIDTH * 0.25f),

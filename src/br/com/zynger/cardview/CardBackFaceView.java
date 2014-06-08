@@ -7,12 +7,13 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.graphics.Typeface;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
 public class CardBackFaceView extends CardFaceView {
 
+	private TypefaceUtil typefaces;
+	
 	private String mCardCvv = "•••";
 	
 	private RectF mMagnecticBarRect;
@@ -27,6 +28,8 @@ public class CardBackFaceView extends CardFaceView {
 	public CardBackFaceView(Context context) {
 		super(context);
 		
+		typefaces = TypefaceUtil.getInstance(getContext());
+		
 		mMagnecticBarPaint = new Paint();
 		int[] colors = {0xFF444444, 0xFF333333};
 		mMagnecticBarPaint.setShader(new LinearGradient(0, 0, 0, CARD_HEIGHT, colors, null, Shader.TileMode.REPEAT));
@@ -38,7 +41,7 @@ public class CardBackFaceView extends CardFaceView {
 		mCvvPaint.setColor(Color.WHITE);
 		mCvvPaint.setAntiAlias(true);
 		mCvvPaint.setDither(true);
-		mCvvPaint.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "VeraMoBd.ttf"));
+		mCvvPaint.setTypeface(typefaces.getVeraMonoBold());
 		mCvvPaint.setTextSize(12.5f * CARD_TEXT_SIZE_MULTIPLIER);
 		
 		mMagnecticBarRect = new RectF(0, CARD_HEIGHT * 0.1f, CARD_WIDTH, CARD_HEIGHT * 0.3f);
