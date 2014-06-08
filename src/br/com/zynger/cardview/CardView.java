@@ -169,6 +169,18 @@ public class CardView extends RelativeLayout {
 		mCardFrontView.setCardValidThru(month, year);
 	}
 	
+	public void setValidThruText(String valid, String thru) {
+		mCardFrontView.setValidThruText(valid, thru);
+	}
+	
+	public void setMonthYearText(String text) {
+		mCardFrontView.setMonthYearText(text);
+	}
+	
+	public void setInformationText(String text) {
+		mCardBackView.setInformationText(text);
+	}
+	
 	public void setFlag(CardFlag flag) {
 		mCardFrontView.setFlag(flag);
 		mCardBackView.setFlag(flag);

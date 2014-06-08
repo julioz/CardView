@@ -40,6 +40,11 @@ public class CardFrontFaceView extends CardFaceView {
 	private RectF mVisaClipRect;
 	private Paint mVisaTextPaint;
 
+	private String mValidText = "valid";
+	private String mThruText = "thru";
+
+	private String mMonthYearText = "MONTH/YEAR";
+
 	public CardFrontFaceView(Context context) {
 		super(context);
 		
@@ -129,16 +134,13 @@ public class CardFrontFaceView extends CardFaceView {
 		canvas.drawText(mCardName, CARD_CONTENT_LEFT, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.50f, mCardNameTextPaint);
 		
-		// TODO move to strings.xml
-		canvas.drawText("MONTH/YEAR", mFlagRect.left, mCardBaseChip.bottom
+		canvas.drawText(mMonthYearText , mFlagRect.left, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.41f, mCardValidHeaderTextPaint);
 		
-		// TODO move to strings.xml
-		canvas.drawText("valid", mFlagRect.left - CARD_WIDTH * 0.07f, mCardBaseChip.bottom
+		canvas.drawText(mValidText , mFlagRect.left - CARD_WIDTH * 0.07f, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.46f, mCardValidTitleTextPaint);
 		
-		// TODO move to strings.xml
-		canvas.drawText("thru", mFlagRect.left - CARD_WIDTH * 0.07f, mCardBaseChip.bottom
+		canvas.drawText(mThruText , mFlagRect.left - CARD_WIDTH * 0.07f, mCardBaseChip.bottom
 				+ CARD_HEIGHT * 0.50f, mCardValidTitleTextPaint);
 		
 		canvas.drawText(mCardValidThru, mFlagRect.left, mCardBaseChip.bottom
@@ -190,6 +192,27 @@ public class CardFrontFaceView extends CardFaceView {
 		this.mCardValidThruMonth = month;
 		this.mCardValidThruYear = year;
 		this.mCardValidThru = (month < 10 ? "0" : "") + month + "/" + (year < 10 ? "0" : "") + year;
+		invalidate();
+	}
+	
+	public void setValidThruText(String valid, String thru) {
+		this.mValidText = valid;
+		this.mThruText = thru;
+		
+		int maxLength = Math.max(mValidText.length(), mThruText.length());
+		float size = 9.5f;
+		if (maxLength > 5) {
+			int difference = maxLength - 5;
+			size = 9.5f - (difference * 1.3f);
+		}
+		size = Math.max(size, 5.0f);
+		mCardValidTitleTextPaint.setTextSize(size * CARD_TEXT_SIZE_MULTIPLIER);
+		
+		invalidate();
+	}
+	
+	public void setMonthYearText(String text) {
+		this.mMonthYearText = text;
 		invalidate();
 	}
 	
