@@ -167,18 +167,16 @@ public class CardView extends RelativeLayout {
 	
 	public void setCardNumber(String cardNumber) {
 		mCardFrontView.setCardNumber(cardNumber);
-		
-		if (cardNumber.matches(CardFlag.VISA.getRegex())) {
-			setFlag(CardFlag.VISA);
-		} else if (cardNumber.matches(CardFlag.AMEX.getRegex())) {
-			setFlag(CardFlag.AMEX);
-		} else if (cardNumber.matches(CardFlag.DISCOVER.getRegex())) {
-			setFlag(CardFlag.DISCOVER);
-		} else if (cardNumber.matches(CardFlag.MASTERCARD.getRegex())) {
-			setFlag(CardFlag.MASTERCARD);
-		} else {
-			setFlag(null);
+
+		CardFlag matchFlag = null;
+		for (CardFlag flag : CardFlag.values()) {
+			if (cardNumber.matches(flag.getRegex())) {
+				matchFlag = flag;
+				break;
+			}
 		}
+		
+		setFlag(matchFlag);
 	}
 	
 	public void setCardName(String cardName) {
