@@ -6,7 +6,7 @@ Credit card view for android apps
 
 Everything is created with pure Java code - no images required.
 
-<img src="http://s21.postimg.org/syce296lh/gif_gifsicle_30_gif_194x345_1368c0.gif"/>
+<img src="https://raw.githubusercontent.com/julioz/CardView/master/cardview.gif"/>
 
 Minimum API required: API 10 (Gingerbread 2.3.3)
 
