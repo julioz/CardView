@@ -18,10 +18,8 @@ public class CardFrontFaceView extends CardFaceView {
 	
 	private RectF mCardBaseChip;
 	private RectF mCardOverChip;
-	private Paint mVisaPaint;
 	private RectF mFlagRect;
-	private Paint mFlagVisaTopPaint;
-	private Paint mFlagVisaBottomPaint;
+
 	private Paint mCardNumberTextPaint;
 	private Paint mCardNameTextPaint;
 	private Paint mCardValidTextPaint;
@@ -35,25 +33,35 @@ public class CardFrontFaceView extends CardFaceView {
 	private Integer mCardValidThruYear;
 	private String mCardValidThru = "••/••";
 
+	private Paint mVisaPaint;
+	private Paint mFlagVisaTopPaint;
+	private Paint mFlagVisaBottomPaint;
+	private Paint mVisaTextPaint;
+	
 	private Paint mMasterCardRedCirclePaint;
 	private Paint mMasterCardYellowCirclePaint;
 	private Paint mMasterCardTextPaint;
 	
-	private Paint mDiscoverFlag;
-	private Paint mDiscoverWhiteFlag;
+	private Paint mDiscoverFlagPaint;
+	private Paint mDiscoverWhiteFlagPaint;
 	private Paint mDiscoverOrangeGradientPaint;
 	private Paint mDiscoverTextPaint;
 	private float mDiscoverOrangeCircleRadius;
 	private RectF mDiscoverLeftTextRect;
 	private RectF mDiscoverRightTextRect;
 
+	private Paint mAmexFlagPaint;
+	private Paint mAmexBlueSquarePaint;
+	private RectF mAmexBlueSquareRect;
+	private Paint mAmexTextPaint;
+
 	private RectF mFlagClipRect;
-	private Paint mVisaTextPaint;
 
 	private String mValidText = "valid";
 	private String mThruText = "thru";
 
 	private String mMonthYearText = "MONTH/YEAR";
+
 
 	public CardFrontFaceView(Context context) {
 		super(context);
@@ -108,11 +116,11 @@ public class CardFrontFaceView extends CardFaceView {
 		mMasterCardTextPaint.setTypeface(typefaces.getVeraMonoBoldItalic());
 		mMasterCardTextPaint.setTextSize(8f * CARD_TEXT_SIZE_MULTIPLIER);
 		
-		mDiscoverFlag = new Paint();
-		mDiscoverFlag.setColor(0xFFff6600);
+		mDiscoverFlagPaint = new Paint();
+		mDiscoverFlagPaint.setColor(0xFFff6600);
 		
-		mDiscoverWhiteFlag = new Paint();
-		mDiscoverWhiteFlag.setColor(0xFFFFFFFF);
+		mDiscoverWhiteFlagPaint = new Paint();
+		mDiscoverWhiteFlagPaint.setColor(0xFFFFFFFF);
 
 		mDiscoverOrangeGradientPaint = new Paint();
 	    mDiscoverOrangeGradientPaint.setDither(true);
@@ -121,6 +129,17 @@ public class CardFrontFaceView extends CardFaceView {
 		mDiscoverTextPaint.setColor(Color.BLACK);
 		mDiscoverTextPaint.setTextSize(8.5f * CARD_TEXT_SIZE_MULTIPLIER);
 		mDiscoverTextPaint.setTypeface(typefaces.getLiberationSans());
+
+		mAmexFlagPaint = new Paint();
+		mAmexFlagPaint.setDither(true);
+		mAmexFlagPaint.setStrokeWidth(1.5f);
+		
+		mAmexBlueSquarePaint = new Paint();
+		mAmexBlueSquarePaint.setColor(0xFF267AC3);
+		
+		mAmexTextPaint = new Paint();
+		mAmexTextPaint.setColor(Color.WHITE);
+		mAmexTextPaint.setTextSize(3.3f * CARD_TEXT_SIZE_MULTIPLIER);
 		
 		mFlagRect = new RectF(CARD_WIDTH - (CARD_WIDTH * 0.25f),
 				CARD_CONTENT_TOP * 1.5f, CARD_CONTENT_RIGHT, CARD_CONTENT_TOP
@@ -130,7 +149,16 @@ public class CardFrontFaceView extends CardFaceView {
 	            mFlagRect.height() / 2, Color.WHITE, 0xFFe57e31, TileMode.CLAMP));
 	    mDiscoverOrangeCircleRadius = mFlagRect.height() / 6.5f;
 		
-		mCardBaseChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2f,
+	    mAmexFlagPaint.setShader(new RadialGradient(mFlagRect.centerX(), mFlagRect.centerY(),
+	    		mFlagRect.height() / 0.7f, Color.WHITE, 0xFF9ca8b2, TileMode.REPEAT));
+
+	    float amexSquareRadius = mFlagRect.width() / 5f;
+	    mAmexBlueSquareRect = new RectF(mFlagRect.centerX()
+	    		- amexSquareRadius, mFlagRect.centerY() - amexSquareRadius,
+	    		mFlagRect.centerX() + amexSquareRadius, mFlagRect.centerY()
+	    		+ amexSquareRadius);
+
+	    mCardBaseChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2f,
 				CARD_WIDTH * 0.2f, CARD_CONTENT_TOP + CARD_HEIGHT * 0.25f);
 		mCardOverChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2.4f,
 				CARD_WIDTH * 0.15f, CARD_CONTENT_TOP + CARD_HEIGHT * 0.22f);
@@ -189,18 +217,37 @@ public class CardFrontFaceView extends CardFaceView {
 			drawMasterCardFlag(flag, flagRect, canvas);
 		} else if (flag == CardFlag.DISCOVER) {
 			drawDiscoverFlag(flag, flagRect, canvas);
+		} else if (flag == CardFlag.AMEX) {
+			drawAmexFlag(flag, flagRect, canvas);
 		}
 	}
 	
+	private void drawAmexFlag(CardFlag flag, RectF flagRect, Canvas canvas) {
+		canvas.drawColor(0xFF85BDB0);
+		canvas.clipRect(mFlagClipRect);
+
+		canvas.drawRect(flagRect, mAmexFlagPaint);
+
+		canvas.drawRect(mAmexBlueSquareRect, mAmexBlueSquarePaint);
+
+		canvas.drawText("AMERICAN", mAmexBlueSquareRect.left,
+				mAmexBlueSquareRect.centerY()
+						- (mAmexBlueSquareRect.height() / 8.5f), mAmexTextPaint);
+		canvas.drawText("EXPRESS", mAmexBlueSquareRect.left
+				+ (mAmexBlueSquareRect.width() / 4f),
+				mAmexBlueSquareRect.centerY()
+						+ (mAmexBlueSquareRect.height() / 8.5f), mAmexTextPaint);
+	}
+
 	private void drawDiscoverFlag(CardFlag flag, RectF flagRect, Canvas canvas) {
 		canvas.drawColor(0xFFbfd9e5);
 		canvas.clipRect(mFlagClipRect);
 
-		canvas.drawRect(flagRect, mDiscoverFlag);
+		canvas.drawRect(flagRect, mDiscoverFlagPaint);
 
 		canvas.drawCircle(flagRect.left + (flagRect.width() / 8f), flagRect.top
 				- (flagRect.height() / 4.5f), flagRect.width() * 0.88f,
-				mDiscoverWhiteFlag);
+				mDiscoverWhiteFlagPaint);
 
 		canvas.drawCircle(flagRect.centerX(), flagRect.centerY(),
 				mDiscoverOrangeCircleRadius, mDiscoverOrangeGradientPaint);
@@ -285,17 +332,28 @@ public class CardFrontFaceView extends CardFaceView {
 		Paint[] visaPaints = { mVisaPaint, mVisaTextPaint };
 		Paint[] masterCardPaints = { mMasterCardRedCirclePaint,
 				mMasterCardYellowCirclePaint, mMasterCardTextPaint };
+		Paint[] discoverPaints = { mDiscoverFlagPaint, mDiscoverWhiteFlagPaint,
+				mDiscoverOrangeGradientPaint, mDiscoverTextPaint };
+		Paint[] amexPaints = { mAmexBlueSquarePaint, mAmexFlagPaint, mAmexTextPaint };
 
 		if (oldFlag == CardFlag.VISA) {
 			setPaintsAlpha(visaPaints, fadeOutAlpha);
 		} else if (oldFlag == CardFlag.MASTERCARD) {
 			setPaintsAlpha(masterCardPaints, fadeOutAlpha);
+		} else if (oldFlag == CardFlag.DISCOVER) {
+			setPaintsAlpha(discoverPaints, fadeOutAlpha);
+		} else if (oldFlag == CardFlag.AMEX) {
+			setPaintsAlpha(amexPaints, fadeOutAlpha);
 		}
 
 		if (newFlag == CardFlag.VISA) {
 			setPaintsAlpha(visaPaints, fadeInAlpha);
 		} else if (newFlag == CardFlag.MASTERCARD) {
 			setPaintsAlpha(masterCardPaints, fadeInAlpha);
+		} else if (newFlag == CardFlag.DISCOVER) {
+			setPaintsAlpha(discoverPaints, fadeInAlpha);
+		} else if (newFlag == CardFlag.AMEX) {
+			setPaintsAlpha(amexPaints, fadeInAlpha);
 		}
 	}
 	
