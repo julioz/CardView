@@ -6,7 +6,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.Shader.TileMode;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
@@ -36,8 +38,16 @@ public class CardFrontFaceView extends CardFaceView {
 	private Paint mMasterCardRedCirclePaint;
 	private Paint mMasterCardYellowCirclePaint;
 	private Paint mMasterCardTextPaint;
+	
+	private Paint mDiscoverFlag;
+	private Paint mDiscoverWhiteFlag;
+	private Paint mDiscoverOrangeGradientPaint;
+	private Paint mDiscoverTextPaint;
+	private float mDiscoverOrangeCircleRadius;
+	private RectF mDiscoverLeftTextRect;
+	private RectF mDiscoverRightTextRect;
 
-	private RectF mVisaClipRect;
+	private RectF mFlagClipRect;
 	private Paint mVisaTextPaint;
 
 	private String mValidText = "valid";
@@ -98,17 +108,42 @@ public class CardFrontFaceView extends CardFaceView {
 		mMasterCardTextPaint.setTypeface(typefaces.getVeraMonoBoldItalic());
 		mMasterCardTextPaint.setTextSize(8f * CARD_TEXT_SIZE_MULTIPLIER);
 		
+		mDiscoverFlag = new Paint();
+		mDiscoverFlag.setColor(0xFFff6600);
+		
+		mDiscoverWhiteFlag = new Paint();
+		mDiscoverWhiteFlag.setColor(0xFFFFFFFF);
+
+		mDiscoverOrangeGradientPaint = new Paint();
+	    mDiscoverOrangeGradientPaint.setDither(true);
+	    
+	    mDiscoverTextPaint = new Paint();
+		mDiscoverTextPaint.setColor(Color.BLACK);
+		mDiscoverTextPaint.setTextSize(8.5f * CARD_TEXT_SIZE_MULTIPLIER);
+		mDiscoverTextPaint.setTypeface(typefaces.getLiberationSans());
+		
 		mFlagRect = new RectF(CARD_WIDTH - (CARD_WIDTH * 0.25f),
 				CARD_CONTENT_TOP * 1.5f, CARD_CONTENT_RIGHT, CARD_CONTENT_TOP
 						+ CARD_HEIGHT * 0.25f);
+		
+		mDiscoverOrangeGradientPaint.setShader(new RadialGradient(mFlagRect.centerX(), mFlagRect.centerY(),
+	            mFlagRect.height() / 2, Color.WHITE, 0xFFe57e31, TileMode.CLAMP));
+	    mDiscoverOrangeCircleRadius = mFlagRect.height() / 6.5f;
 		
 		mCardBaseChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2f,
 				CARD_WIDTH * 0.2f, CARD_CONTENT_TOP + CARD_HEIGHT * 0.25f);
 		mCardOverChip = new RectF(CARD_CONTENT_LEFT, CARD_CONTENT_TOP * 2.4f,
 				CARD_WIDTH * 0.15f, CARD_CONTENT_TOP + CARD_HEIGHT * 0.22f);
 		int padding = 4;
-		mVisaClipRect = new RectF(mFlagRect.left + padding, mFlagRect.top
+		mFlagClipRect = new RectF(mFlagRect.left + padding, mFlagRect.top
 				+ padding, mFlagRect.right - padding, mFlagRect.bottom - padding);
+		
+		mDiscoverLeftTextRect = new RectF(mFlagClipRect.left, mFlagClipRect.top,
+				mFlagRect.centerX() - mDiscoverOrangeCircleRadius,
+				mFlagClipRect.bottom);
+		mDiscoverRightTextRect = new RectF(mFlagRect.centerX()
+				+ mDiscoverOrangeCircleRadius, mFlagClipRect.top,
+				mFlagClipRect.right, mFlagClipRect.bottom);
 		
 //		pattern = new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.card_pattern));
 //		pattern.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
@@ -152,7 +187,29 @@ public class CardFrontFaceView extends CardFaceView {
 			drawVisaFlag(flag, flagRect, canvas);
 		} else if (flag == CardFlag.MASTERCARD) {
 			drawMasterCardFlag(flag, flagRect, canvas);
+		} else if (flag == CardFlag.DISCOVER) {
+			drawDiscoverFlag(flag, flagRect, canvas);
 		}
+	}
+	
+	private void drawDiscoverFlag(CardFlag flag, RectF flagRect, Canvas canvas) {
+		canvas.drawColor(0xFFbfd9e5);
+		canvas.clipRect(mFlagClipRect);
+
+		canvas.drawRect(flagRect, mDiscoverFlag);
+
+		canvas.drawCircle(flagRect.left + (flagRect.width() / 8f), flagRect.top
+				- (flagRect.height() / 4.5f), flagRect.width() * 0.88f,
+				mDiscoverWhiteFlag);
+
+		canvas.drawCircle(flagRect.centerX(), flagRect.centerY(),
+				mDiscoverOrangeCircleRadius, mDiscoverOrangeGradientPaint);
+
+		float offsetY = mFlagClipRect.height() / 13f;
+		drawTextInRectF("DISC", 0, offsetY, canvas, mDiscoverLeftTextRect,
+				mDiscoverTextPaint);
+		drawTextInRectF("VER", 0, offsetY, canvas, mDiscoverRightTextRect,
+				mDiscoverTextPaint);
 	}
 
 	private void drawMasterCardFlag(CardFlag flag, RectF flagRect, Canvas canvas) {
@@ -169,13 +226,13 @@ public class CardFrontFaceView extends CardFaceView {
 
 	private void drawVisaFlag(CardFlag flag, RectF flagRect, Canvas canvas) {
 		canvas.drawColor(0xFF8d88bc);
-		canvas.clipRect(mVisaClipRect);
+		canvas.clipRect(mFlagClipRect);
 		canvas.drawRect(0, 0, getWidth(), flagRect.bottom / 2f, mFlagVisaTopPaint);
 		RectF mVisaTextRect = new RectF(0, flagRect.bottom / 2f, getWidth(), flagRect.bottom / 1.18f);
 		canvas.drawRect(mVisaTextRect, mVisaPaint);
 		canvas.drawRect(0, flagRect.bottom / 1.18f, getWidth(), getHeight(), mFlagVisaBottomPaint);
 		
-		drawTextInRectF(flag.getText(), 0, Math.round(mVisaClipRect.height()/6f), canvas, mVisaClipRect, mVisaTextPaint);
+		drawTextInRectF(flag.getText(), 0, Math.round(mFlagClipRect.height()/6f), canvas, mFlagClipRect, mVisaTextPaint);
 	}
 	
 	protected void setCardNumber(String cardNumber) {

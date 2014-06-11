@@ -104,7 +104,7 @@ public abstract class CardFaceView extends View {
 				CHIP_BORDER_RADIUS, mChipOverPaint);
 	}
 	
-	protected void drawTextInRectF(String text, int offsetX, int offsetY, Canvas canvas, RectF r, Paint textPaint) {
+	protected void drawTextInRectF(String text, float offsetX, float offsetY, Canvas canvas, RectF r, Paint textPaint) {
 		textPaint.setTextAlign(Align.CENTER);
 		float width = r.width();
 
