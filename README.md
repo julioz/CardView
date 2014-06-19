@@ -15,7 +15,44 @@ To use CardView in your project, you just need to add this project as a library 
 
 You are able to set the cardholder name, the card number, expiration date and the CVV on the back of the card.
 
+Using Java:
+``` java
+CardView card = (CardView) rootView.findViewById(R.id.cardview);
+card.setCardNumber("3744 4444 4444 4444");
+card.setCardName("Uncle Scrooge");
+card.setCardValidThru(8, 2015);
+card.setCardCvv(432);
+card.setValidThruText("valid", "thru");
+card.setMonthYearText("MONTH/YEAR");
+card.setInformationText("Legal - and usually boring - text");
+```
+
+or in XML:
+``` xml
+<br.com.zynger.cardview.CardView
+    android:id="@+id/cardview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardNumber="6011 4444 4444 4444"
+    app:cardholderName="uncle scrooge"
+    app:cardValidThru="08/2015"
+    app:cardValidThruWordOneText="valid"
+    app:cardValidThruWordTwoText="thru"
+    app:cardholderCvv="124"
+    app:cardMonthYearText="MONTH/YEAR"
+    app:cardInformationText="Legal - and usually boring - text" />
+```
+
+
 You are also able to link CardView to your own pre-built form, just by passing your EditText references to it through nice methods like setNameTextInput(), setNumberTextInput() and so on. Everything else will already be configured for you :)
+
+``` java
+CardView card = (CardView) rootView.findViewById(R.id.cardview);
+card.setNameTextInput(etName);
+card.setNumberTextInput(etNumber);
+card.setExpirationTextInput(etExpiration);
+card.setCvvTextInput(etCvv);
+```
 
 - - -
 ### Featured Projects

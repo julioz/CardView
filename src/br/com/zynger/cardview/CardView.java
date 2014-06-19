@@ -1,6 +1,7 @@
 package br.com.zynger.cardview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -45,10 +46,10 @@ public class CardView extends RelativeLayout {
 	
 	public CardView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context);
+		init(context, attrs);
 	}
 
-	private void init(Context context) {
+	private void init(Context context, AttributeSet attrs) {
 		mCardFrontView = new CardFrontFaceView(context);
 		mCardBackView = new CardBackFaceView(context);
 		
@@ -57,8 +58,55 @@ public class CardView extends RelativeLayout {
 		addView(mCardFrontView);
 		
 		initAnimations();
+		
+		initFromXML(attrs);
 	}
 
+	private void initFromXML(AttributeSet attrs) {
+		TypedArray array = getContext().obtainStyledAttributes(attrs,
+				R.styleable.CardView);
+		
+		String cardNumber = array.getString(R.styleable.CardView_cardNumber);
+		if (cardNumber != null) {
+			String maskedNumber = getMaskedNumber(cardNumber);
+			setCardNumber(maskedNumber);
+		}
+
+		String cardholder = array.getString(R.styleable.CardView_cardholderName);
+		if (cardholder != null) {
+			setCardName(cardholder);
+		}
+		
+		String validThru = array.getString(R.styleable.CardView_cardValidThru);
+		if (validThru != null) {
+			int[] date = getMaskedDate(validThru);
+			setCardValidThru(date[0], date[1]);
+		}
+		
+		Integer cvv = array.getInteger(R.styleable.CardView_cardholderCvv, -1);
+		if (cvv != -1) {
+			setCardCvv(cvv);
+		}
+		
+		String validThruOneText = array.getString(R.styleable.CardView_cardValidThruWordOneText);
+		String validThruTwoText = array.getString(R.styleable.CardView_cardValidThruWordTwoText);
+		if (validThruOneText != null && validThruTwoText != null) {
+			setValidThruText(validThruOneText, validThruTwoText);
+		}
+		
+		String monthYearText = array.getString(R.styleable.CardView_cardMonthYearText);
+		if (monthYearText != null) {
+			setMonthYearText(monthYearText);
+		}
+		
+		String informationText = array.getString(R.styleable.CardView_cardInformationText);
+		if (informationText != null) {
+			setInformationText(informationText);
+		}
+		
+		array.recycle();
+	}
+	
 	private void initAnimations() {
 		mFrontOutAnim = ObjectAnimator.ofFloat(mCardFrontView, "rotationY", 0f, -90f);
 		mFrontOutAnim.setDuration(ANIMATION_DURATION);
@@ -322,6 +370,8 @@ public class CardView extends RelativeLayout {
 	}
 	
 	private int[] getMaskedDate(String input) {
+		input = input.replaceAll("/", "");
+		
 		int[] date = new int[2];
 		date[0] = -1;
 		date[1] = -1;
@@ -341,6 +391,8 @@ public class CardView extends RelativeLayout {
 	}
 	
 	private String getMaskedNumber(String input) {
+		input = input.replaceAll(" ", "");
+		
 		StringBuilder out = new StringBuilder();
 		
 		for (int index = 0; index < input.length(); index++) {

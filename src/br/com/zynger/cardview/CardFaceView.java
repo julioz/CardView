@@ -44,8 +44,8 @@ public abstract class CardFaceView extends View {
 	
 	protected static final int CARD_BACKGROUND_COLOR_NOFLAG = 0xFFCCCCCC;
 
-	protected static final int CARD_WIDTH = Math.round(700 * 1f); //TODO extract to variables
-	protected static final int CARD_HEIGHT = Math.round(400 * 1f);
+	protected static final int CARD_WIDTH = Math.round(525 * 1.0f); //TODO extract to variables
+	protected static final int CARD_HEIGHT = Math.round(300 * 1.0f);
 
 	protected static final int CARD_BORDER_RADIUS = 10;
 	protected static final int CHIP_BORDER_RADIUS = 5;
@@ -66,7 +66,7 @@ public abstract class CardFaceView extends View {
 	private Paint mChipBasePaint;
 	private Paint mChipOverPaint;
 	private Paint mCardBackgroundGradientPaint;
-	
+
 	public CardFaceView(Context context) {
 		super(context);
 		
@@ -87,7 +87,7 @@ public abstract class CardFaceView extends View {
 		
 		mCardRect = new RectF(0, 0, CARD_WIDTH, CARD_HEIGHT);
 	}
-
+	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -156,7 +156,7 @@ public abstract class CardFaceView extends View {
 	
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(
-				MeasureSpec.makeMeasureSpec(CARD_WIDTH, MeasureSpec.EXACTLY),
-				MeasureSpec.makeMeasureSpec(CARD_HEIGHT, MeasureSpec.EXACTLY));
+				MeasureSpec.makeMeasureSpec(Math.round(CARD_WIDTH), MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(Math.round(CARD_HEIGHT), MeasureSpec.EXACTLY));
 	}
 }

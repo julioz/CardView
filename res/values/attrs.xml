@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CardView">
+        <attr name="cardNumber" format="string" />
+        <attr name="cardholderName" format="string" />
+        <attr name="cardValidThru" format="string" />
+        <attr name="cardholderCvv" format="integer" />
+        <attr name="cardValidThruWordOneText" format="string" />
+        <attr name="cardValidThruWordTwoText" format="string" />
+        <attr name="cardMonthYearText" format="string" />
+        <attr name="cardInformationText" format="string" />
+    </declare-styleable>
+
+</resources>
